@@ -1,5 +1,5 @@
 {
-  "name": "generate-invoice",
+  "name": "template-invoice",
   "version": "0.1.0",
   "private": true,
   "scripts": {
