@@ -19,7 +19,7 @@ export const InvoiceTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   invoiceURL
 }) => (
   <div >
-    <h1>Welcome, {firstName}!</h1>
+    <h1>Hola soy Factura 360, {firstName}!</h1>
 
     <div>
       <p>Invoice No. : {invoiceNo}</p>
