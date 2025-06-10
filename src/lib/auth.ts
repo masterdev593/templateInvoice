@@ -1,29 +1,38 @@
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import NextAuth, { DefaultSession } from "next-auth"
-import client from "./mongodb-client"
-import Resend from "next-auth/providers/resend"
- 
-declare module "next-auth" {
+import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import NextAuth, { DefaultSession } from 'next-auth';
+import client from './mongodb-client';
+import Resend from 'next-auth/providers/resend';
+import { sendVerificationRequest } from './authSendRequest';
+// Extend the NextAuth session to include additional user properties
+
+declare module 'next-auth' {
   interface Session {
-    user : {
-      firstName : string;
-      lastName : string;
-      currency : string;
-    } & DefaultSession['user']
+    user: {
+      firstName: string;
+      lastName: string;
+      currency: string;
+    } & DefaultSession['user'];
   }
 }
-
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(client),
   providers: [
     Resend({
-        from : "Generate-Invoice <info@resend.amitprajapati.co.in>"//"Generate-Invoice <onboarding@resend.dev>"
+      server: '',
+      from: '📊 Factura 360 <info@factura360.app>',
+      sendVerificationRequest,
+      
     })
   ],
-  pages : {
-    error : "/login",
-    verifyRequest : "/verify-email",
-    signIn : "/login"
+  /*   providers: [
+    Resend({
+      from: '📊 Factura 360 <info@factura360.app>' //"Generate-Invoice <onboarding@resend.dev>"
+    })
+  ], */
+  pages: {
+    error: '/unauthorized',
+    verifyRequest: '/verify-email',
+    signIn: '/login'
   }
-})
+});
